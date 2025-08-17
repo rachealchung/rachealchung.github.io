@@ -52,32 +52,34 @@ var pageState = PageState.HOVER;
 var activeElement = ActiveElement.LANDING;
 var currentWindowSize = document.documentElement.clientWidth > MOBILE_WINDOW_SIZE_THRESHOLD ? WindowSize.OTHER : WindowSize.MOBILE;
 
-function addModalListeners() {
-    const modal = document.getElementById("photo-modal");
-    const modalImg = document.getElementById("modal-image");
+const IMAGE_MAP = {
+    'ee': '/images/ee.jpg',
+    'education': '/images/education.jpg',
+    'LA': '/images/la.jpg',
+    'Seoul': '/images/seoul.jpg',
+    'NYC': '/images/nyc.jpg',
+    'bouldering': '/images/bouldering.jpg',
+    'music': '/images/music.jpg',
+    'tennis': '/images/tennis.jpg',
+    'photography': '/images/photography.jpg'
+};
 
-    // 모든 hover-photo-text span에 클릭 이벤트 추가
-    document.querySelectorAll(".hover-photo-text").forEach(el => {
-        el.addEventListener("click", () => {
-            const imgId = el.id; // id를 이미지 파일명으로 사용
-            modalImg.src = `images/${imgId}.jpg`; // 예: id="NYC" → images/NYC.jpg
-            modal.style.display = "block";
-        });
+document.querySelectorAll('.hover-photo-text').forEach(el => {
+    el.addEventListener('click', (e) => {
+        const src = IMAGE_MAP[el.id];
+        if (!src) return;
+
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        modalImg.src = src;
+        modal.style.display = 'block';
     });
-
-    // 모달 배경 클릭하면 닫힘
-    modal.addEventListener("click", (event) => {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    });
-}
-
-// DOM 로드 후 실행
-document.addEventListener("DOMContentLoaded", () => {
-    addModalListeners();
 });
 
+// 페이지 어디든 클릭하면 모달 닫기
+document.getElementById('imageModal').addEventListener('click', () => {
+    document.getElementById('imageModal').style.display = 'none';
+});
 
 function addPictureHoverListener(hoverPictureID, index) {
     $("#" + hoverPictureID).hover(() => {
