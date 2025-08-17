@@ -70,6 +70,7 @@ document.querySelectorAll('.hover-photo-text').forEach(el => {
         if (!src) return;
 
         const modal = document.getElementById('imageModal');
+        debugger;
         const modalImg = document.getElementById('modalImage');
         modalImg.src = src;
         modal.style.display = 'block';
@@ -82,29 +83,26 @@ document.getElementById('imageModal').addEventListener('click', () => {
 });
 
 function addPictureHoverListener(hoverPictureID, index) {
-    $("#" + hoverPictureID).hover(() => {
-        if (pageState === PageState.CLICK) {
-            pageState = PageState.HOVER;
+    // 텍스트 클릭 시 모달 이미지 띄우기
+    $(".hover-photo-text").click(function(e) {
+        e.stopPropagation(); // 이벤트 버블링 방지
+        let id = $(this).attr("id");
 
-            $(".img-container").first().removeClass("d-none");
-            disablePreviousActiveElement(activeElement);
-            activeElement = ActiveElement.LANDING;
-        }
+        // IMAGE_MAP에 있는 경로 사용, 없으면 기본 이미지
+        let imgSrc = IMAGE_MAP[id] || "/images/profile.jpg";
 
-        $(".landing-picture").first()
-            .attr("src", "images/" + hoverPictureID + (hoverPictureID === "kyudo" ? ".gif" : ".jpg"));
-        if (hoverPictureID === "kyudo") {
-            $(".landing-picture").first()
-                .addClass("kyudo-gif");
-        }
-    }, () => {
-        $(".landing-picture").first()
-            .attr("src", "images/profile.jpg");
+        $("#modalImage").attr("src", imgSrc);
+        $("#imageModal").css("display", "flex");
+    });
 
-        if (hoverPictureID === "kyudo") {
-            $(".landing-picture").first()
-                .removeClass("kyudo-gif");
-        }
+    // 페이지 아무 곳 클릭 시 모달 닫기
+    $(document).click(function() {
+        $("#imageModal").css("display", "none");
+    });
+
+    // 모달 내부 클릭 시 닫히지 않도록
+    $("#imageModal").click(function(e) {
+        e.stopPropagation();
     });
 }
 
