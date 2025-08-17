@@ -1,18 +1,15 @@
 const HOVER_PICTURES = [
-    "profile",
-    "mexico",
-    "kyudo"
+    'ee',
+    'education',
+    'LA',
+    'Seoul',
+    'NYC',
+    'bouldering',
+    'music',
+    'tennis',
+    'photography'
 ];
 
-const LISTENER_IDS = [
-    "japanese",
-    "education",
-    "technical-skills",
-    "map",
-    "professor",
-    "skandinaviska",
-    "pitchfork"
-];
 
 const MOBILE_WINDOW_SIZE_THRESHOLD = 992;
 
