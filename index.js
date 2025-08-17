@@ -4,18 +4,6 @@ const HOVER_PICTURES = [
     "kyudo"
 ];
 
-const SKILL_BAR_PROGRESS = {
-    "python-bar": "100%",
-    "swift-bar": "60%",
-    "mos6502-bar": "20%",
-    "js-bar": "80%",
-    "java-bar": "90%",
-    "cpp-bar": "80%",
-    "react-bar": "40%",
-    "opengl-bar": "60%",
-    "d3-bar": "60%"
-};
-
 const LISTENER_IDS = [
     "japanese",
     "education",
@@ -25,13 +13,6 @@ const LISTENER_IDS = [
     "skandinaviska",
     "pitchfork"
 ];
-
-const INSTRUMENT_BAR_PROGRESS = {
-    "bass": "90%",
-    "guitar": "70%",
-    "piano": "60%",
-    "ukulele": "60%"
-}
 
 const MOBILE_WINDOW_SIZE_THRESHOLD = 992;
 
@@ -71,21 +52,31 @@ var pageState = PageState.HOVER;
 var activeElement = ActiveElement.LANDING;
 var currentWindowSize = document.documentElement.clientWidth > MOBILE_WINDOW_SIZE_THRESHOLD ? WindowSize.OTHER : WindowSize.MOBILE;
 
-function showPhoto(imageSrc) {
-  const modal = document.getElementById("photo-modal");
-  const modalImg = document.getElementById("modal-image");
+function addModalListeners() {
+    const modal = document.getElementById("photo-modal");
+    const modalImg = document.getElementById("modal-image");
 
-  modal.style.display = "block";
-  modalImg.src = imageSrc;
+    // 모든 hover-photo-text span에 클릭 이벤트 추가
+    document.querySelectorAll(".hover-photo-text").forEach(el => {
+        el.addEventListener("click", () => {
+            const imgId = el.id; // id를 이미지 파일명으로 사용
+            modalImg.src = `images/${imgId}.jpg`; // 예: id="NYC" → images/NYC.jpg
+            modal.style.display = "block";
+        });
+    });
 
-  // 배경 클릭 시 닫기
-  modal.onclick = function(event) {
-    if (event.target === modal) {
-      modal.style.display = "none";
-    }
-  };
+    // 모달 배경 클릭하면 닫힘
+    modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
 }
 
+// DOM 로드 후 실행
+document.addEventListener("DOMContentLoaded", () => {
+    addModalListeners();
+});
 
 
 function addPictureHoverListener(hoverPictureID, index) {
@@ -115,54 +106,10 @@ function addPictureHoverListener(hoverPictureID, index) {
     });
 }
 
-function animateProgressBars(progressBars, reset) {
-    for (const progressBarID in progressBars) {
-        $("." + progressBarID).animate({
-            width: reset === Animation.FILL ? progressBars[progressBarID] : 0
-        }, 100);
-    }
-}
-
 function disablePreviousActiveElement(previousActiveElement) {
     switch (previousActiveElement) {
         case ActiveElement.LANDING:
             $(".img-container").first().addClass("d-none");
-            break;
-        case ActiveElement.SKILLS:
-            $(".img-container").first().removeClass("d-none");
-            $(".technical-skills").first().addClass("d-none");
-            animateProgressBars(SKILL_BAR_PROGRESS, Animation.RESET);
-            activeElement = ActiveElement.LANDING;
-            break;
-        case ActiveElement.MAP:
-            $(".img-container").first().removeClass("d-none");
-            $(".map").first().addClass("d-none");
-            activeElement = ActiveElement.LANDING;
-            break;
-        case ActiveElement.EDUCATION:
-            $(".img-container").first().removeClass("d-none");
-            $(".education").first().addClass("d-none");
-            activeElement = ActiveElement.LANDING;
-            break;
-        case ActiveElement.LANGUAGES:
-            $(".img-container").first().removeClass("d-none");
-            $(".japanese").first().addClass("d-none");
-            activeElement = ActiveElement.LANDING;
-            break;
-        case ActiveElement.PROFESSOR:
-            $(".img-container").first().removeClass("d-none");
-            $(".professor").first().addClass("d-none");
-            activeElement = ActiveElement.LANDING;
-            break;
-        case ActiveElement.SKANDINAVISKA:
-            $(".img-container").first().removeClass("d-none");
-            $(".skandinaviska").first().addClass("d-none");
-            activeElement = ActiveElement.LANDING;
-            break;
-        case ActiveElement.PITCHFORK:
-            $(".img-container").first().removeClass("d-none");
-            $(".pitchfork").first().addClass("d-none");
-            activeElement = ActiveElement.LANDING;
             break;
     }
 }
@@ -183,31 +130,6 @@ function addListeners() {
 
             $("." + id).first().removeClass("d-none");
             disablePreviousActiveElement(activeElement);
-
-            switch (id) {
-                case "japanese":
-                    activeElement = ActiveElement.LANGUAGES;
-                    break;
-                case "education":
-                    activeElement = ActiveElement.EDUCATION;
-                    break;
-                case "technical-skills":
-                    activeElement = ActiveElement.SKILLS;
-                    animateProgressBars(SKILL_BAR_PROGRESS, Animation.FILL);
-                    break;
-                case "map":
-                    activeElement = ActiveElement.MAP;
-                    break;
-                case "professor":
-                    activeElement = ActiveElement.PROFESSOR;
-                    break;
-                case "skandinaviska":
-                    activeElement = ActiveElement.SKANDINAVISKA;
-                    break;
-                case "pitchfork":
-                    activeElement = ActiveElement.PITCHFORK;
-                    break;
-            }
         }, () => {
 
             // Disables listeners if hover event ends
