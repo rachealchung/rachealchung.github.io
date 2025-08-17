@@ -71,6 +71,23 @@ var pageState = PageState.HOVER;
 var activeElement = ActiveElement.LANDING;
 var currentWindowSize = document.documentElement.clientWidth > MOBILE_WINDOW_SIZE_THRESHOLD ? WindowSize.OTHER : WindowSize.MOBILE;
 
+function showPhoto(imageSrc) {
+  const modal = document.getElementById("photo-modal");
+  const modalImg = document.getElementById("modal-image");
+
+  modal.style.display = "block";
+  modalImg.src = imageSrc;
+
+  // 배경 클릭 시 닫기
+  modal.onclick = function(event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
+}
+
+
+
 function addPictureHoverListener(hoverPictureID, index) {
     $("#" + hoverPictureID).hover(() => {
         if (pageState === PageState.CLICK) {
