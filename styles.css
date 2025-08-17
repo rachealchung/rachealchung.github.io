@@ -1,18 +1,20 @@
 /* 페이지 전체 중앙 정렬 */
 #main {
     display: flex;
-    justify-content: center; /* 가로 중앙 */
-    align-items: center;     /* 세로 중앙 */
-    height: 100vh;           /* 화면 전체 높이 */
-    text-align: center;      /* 텍스트 중앙 정렬 */
-    padding: 0 20px;         /* 좌우 여백 */
+    flex-direction: column;        /* 세로 방향 배치 */
+    justify-content: center;       /* 세로 중앙 */
+    align-items: center;           /* 가로 중앙 */
+    min-height: 100vh;             /* 화면 전체 높이 */
+    padding: 0 20px;               /* 좌우 여백 */
+    box-sizing: border-box;        /* 패딩 포함 계산 */
+    text-align: center;            /* 텍스트 중앙 정렬 */
 }
 
 /* 텍스트 영역 제한 */
 #text {
-    max-width: 700px;        /* 너무 넓게 퍼지지 않도록 */
+    max-width: 800px;              /* 너무 넓게 퍼지지 않도록 */
+    width: 100%;                   /* 모바일에서 꽉 차게 */
 }
-
 /* 기존 폰트 유지 */
 body {
     font-family: "Rubik", sans-serif;
@@ -80,10 +82,6 @@ p {
 .landing-picture {
     max-width: 75%;
     height: auto;
-}
-
-.kyudo-gif {
-    width: 60%;
 }
 
 .modal {
