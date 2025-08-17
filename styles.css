@@ -4,7 +4,7 @@ body {
 
 body::after{
    position:absolute; width:0; height:0; overflow:hidden; z-index:-1;
-   content:url(/images/Bouldering.jpg) url(/images/CU.jpg) url(/images/Music.jpg) url(/images/nyu-logo.png);
+   content:url(/images/Bouldering.jpg) url(/images/CU.jpg) url(/images/Music.jpg);
 }
 
 /* Landing Page */
